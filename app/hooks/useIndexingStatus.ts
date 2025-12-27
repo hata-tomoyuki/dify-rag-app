@@ -11,6 +11,18 @@ interface UseIndexingStatusProps {
   onError: (error: string) => void;
 }
 
+/**
+ * インデックス化進捗状況をポーリングするカスタムフック
+ * 2秒間隔で進捗状況を取得し、完了またはエラー時に自動的に停止する
+ *
+ * @param props - UseIndexingStatusProps
+ * @param props.batch - 進捗を監視するバッチID
+ * @param props.isIndexing - インデックス化が進行中かどうか
+ * @param props.onStatusUpdate - ステータス更新時のコールバック関数
+ * @param props.onComplete - インデックス化完了時のコールバック関数
+ * @param props.onError - エラー発生時のコールバック関数
+ * @returns 進捗状況のポーリングを管理するフック
+ */
 export function useIndexingStatus({
   batch,
   isIndexing,

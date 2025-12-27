@@ -6,6 +6,15 @@ interface FileInputProps {
   disabled?: boolean;
 }
 
+/**
+ * CSVファイル選択用の入力コンポーネント
+ *
+ * @param props - FileInputProps
+ * @param props.selectedFile - 現在選択されているファイル
+ * @param props.onChange - ファイル選択変更時のコールバック関数
+ * @param props.disabled - 入力フィールドを無効化するかどうか
+ * @returns ファイル選択入力と選択されたファイル情報を表示するコンポーネント
+ */
 export function FileInput({ selectedFile, onChange, disabled }: FileInputProps) {
   return (
     <div>

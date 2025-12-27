@@ -6,6 +6,15 @@ interface UploadButtonProps {
   isLoading: boolean;
 }
 
+/**
+ * ファイルアップロード用のボタンコンポーネント
+ *
+ * @param props - UploadButtonProps
+ * @param props.onClick - ボタンクリック時のコールバック関数
+ * @param props.disabled - ボタンを無効化するかどうか
+ * @param props.isLoading - ローディング状態かどうか
+ * @returns アップロードボタンコンポーネント（ローディング状態の表示を含む）
+ */
 export function UploadButton({ onClick, disabled, isLoading }: UploadButtonProps) {
   return (
     <button

@@ -6,6 +6,13 @@ interface ProgressIndicatorProps {
   status: IndexingStatus;
 }
 
+/**
+ * インデックス化進捗状況を表示するコンポーネント
+ *
+ * @param props - ProgressIndicatorProps
+ * @param props.status - インデックス化のステータス情報
+ * @returns 進捗バーとセグメント完了数を表示するコンポーネント
+ */
 export function ProgressIndicator({ status }: ProgressIndicatorProps) {
   const progressPercentage =
     status.total_segments && status.total_segments > 0

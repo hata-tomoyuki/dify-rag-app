@@ -4,6 +4,13 @@ interface MessageDisplayProps {
   message: { type: "success" | "error"; text: string };
 }
 
+/**
+ * 成功/エラーメッセージを表示するコンポーネント
+ *
+ * @param props - MessageDisplayProps
+ * @param props.message - 表示するメッセージ（タイプとテキスト）
+ * @returns メッセージを表示するコンポーネント（成功は緑、エラーは赤で表示）
+ */
 export function MessageDisplay({ message }: MessageDisplayProps) {
   return (
     <div

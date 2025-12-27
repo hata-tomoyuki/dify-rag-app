@@ -8,6 +8,11 @@ import { ProgressIndicator } from "./components/ProgressIndicator";
 import { MessageDisplay } from "./components/MessageDisplay";
 import { useIndexingStatus } from "./hooks/useIndexingStatus";
 
+/**
+ * CSVファイルアップロードページのメインコンポーネント
+ *
+ * @returns CSVファイルのアップロードとインデックス化進捗を管理するページコンポーネント
+ */
 export default function Home() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -16,6 +21,12 @@ export default function Home() {
   const [isIndexing, setIsIndexing] = useState(false);
   const [currentBatch, setCurrentBatch] = useState<string | null>(null);
 
+  /**
+   * ファイル選択時のハンドラー
+   * CSVファイルかどうかを検証し、選択されたファイルを状態に保存する
+   *
+   * @param e - ファイル入力の変更イベント
+   */
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -30,6 +41,12 @@ export default function Home() {
     }
   }, []);
 
+  /**
+   * ファイルアップロード処理のハンドラー
+   * 選択されたCSVファイルをDify APIにアップロードし、進捗監視を開始する
+   *
+   * @throws ファイルが選択されていない場合やアップロードが失敗した場合にエラーを表示
+   */
   const handleUpload = useCallback(async () => {
     if (!selectedFile) {
       setMessage({ type: "error", text: "ファイルを選択してください" });
@@ -85,6 +102,12 @@ export default function Home() {
     }
   }, [selectedFile]);
 
+  /**
+   * インデックス化完了時のハンドラー
+   * 進捗監視を停止し、成功メッセージを表示する
+   *
+   * @param status - 完了したインデックス化ステータス
+   */
   const handleIndexingComplete = useCallback((status: IndexingStatus) => {
     setIsIndexing(false);
     setMessage({
@@ -94,6 +117,12 @@ export default function Home() {
     setCurrentBatch(null);
   }, []);
 
+  /**
+   * インデックス化エラー時のハンドラー
+   * 進捗監視を停止し、エラーメッセージを表示する
+   *
+   * @param error - エラーメッセージ
+   */
   const handleIndexingError = useCallback((error: string) => {
     setIsIndexing(false);
     setMessage({

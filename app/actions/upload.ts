@@ -28,6 +28,13 @@ export interface IndexingStatusResult {
   error?: string;
 }
 
+/**
+ * CSVファイルをDify APIにアップロードするServer Action
+ *
+ * @param formData - アップロードするファイルを含むFormDataオブジェクト
+ * @returns アップロード結果（成功/失敗、メッセージ、ドキュメントID、バッチID）
+ * @throws 環境変数が設定されていない場合やAPIリクエストが失敗した場合にエラーを返す
+ */
 export async function uploadCsvFile(formData: FormData): Promise<UploadResult> {
   const file = formData.get("file") as File | null;
   const docForm = formData.get("docForm") as string | null;
@@ -134,6 +141,13 @@ export async function uploadCsvFile(formData: FormData): Promise<UploadResult> {
   }
 }
 
+/**
+ * ドキュメントのインデックス化進捗状況を取得するServer Action
+ *
+ * @param batch - ドキュメント作成時に返されたバッチID
+ * @returns インデックス化ステータスの結果（成功/失敗、ステータスデータ、エラーメッセージ）
+ * @throws 環境変数が設定されていない場合やAPIリクエストが失敗した場合にエラーを返す
+ */
 export async function getIndexingStatus(
   batch: string
 ): Promise<IndexingStatusResult> {

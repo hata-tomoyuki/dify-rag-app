@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { uploadCsvFile } from "./actions/upload";
 
 export default function Home() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -27,87 +28,31 @@ export default function Home() {
       return;
     }
 
-    const apiKey = process.env.NEXT_PUBLIC_DIFY_API_KEY;
-    const datasetId = process.env.NEXT_PUBLIC_DIFY_DATASET_ID;
-    const baseUrl = process.env.NEXT_PUBLIC_DIFY_API_BASE_URL;
-    const docForm = process.env.NEXT_PUBLIC_DIFY_DOC_FORM ;
-
-    if (!apiKey || !datasetId) {
-      setMessage({
-        type: "error",
-        text: "環境変数が設定されていません。.env.localファイルを確認してください。",
-      });
-      return;
-    }
-
     setIsUploading(true);
     setMessage(null);
 
     try {
-      // FormDataを作成
       const formData = new FormData();
-
-      // dataフィールド: JSON文字列として設定
-      const dataConfig = {
-        indexing_technique: "high_quality",
-        doc_form: docForm,
-        doc_language: "Japanese",
-        process_rule: {
-          mode: "custom",
-          rules: {
-            pre_processing_rules: [
-              {
-                id: "remove_extra_spaces",
-                enabled: true,
-              },
-              {
-                id: "remove_urls_emails",
-                enabled: false,
-              },
-            ],
-            segmentation: {
-              separator: "###",
-              max_tokens: 500,
-            },
-          },
-        },
-      };
-      formData.append("data", JSON.stringify(dataConfig));
-
-      // fileフィールド: CSVファイルを追加
       formData.append("file", selectedFile);
 
-      // APIリクエストを送信
-      const response = await fetch(`${baseUrl}/datasets/${datasetId}/document/create-by-file`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: formData,
-      });
+      const result = await uploadCsvFile(formData);
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        let errorMessage = errorData.message || `アップロードに失敗しました: ${response.status} ${response.statusText}`;
-
-        // doc_formエラーの場合、より詳細な情報を提供
-        if (errorMessage.includes("doc_form")) {
-          errorMessage += `\n\n現在の設定: doc_form="${docForm}"\nデータセットのdoc_formと一致しているか確認してください。\n一般的な値: "text_model", "qa_model", "book"`;
+      if (result.success) {
+        setMessage({
+          type: "success",
+          text: result.message,
+        });
+        setSelectedFile(null);
+        // ファイル入力もリセット
+        const fileInput = document.getElementById("csv-file-input") as HTMLInputElement;
+        if (fileInput) {
+          fileInput.value = "";
         }
-
-        throw new Error(errorMessage);
-      }
-
-      const result = await response.json();
-      setMessage({
-        type: "success",
-        text: `アップロードが成功しました！ドキュメントID: ${result.document?.id || "N/A"}`,
-      });
-      setSelectedFile(null);
-      // ファイル入力もリセット
-      const fileInput = document.getElementById("csv-file-input") as HTMLInputElement;
-      if (fileInput) {
-        fileInput.value = "";
+      } else {
+        setMessage({
+          type: "error",
+          text: result.message,
+        });
       }
     } catch (error) {
       setMessage({

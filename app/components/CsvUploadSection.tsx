@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { uploadCsvFile, type IndexingStatus } from "../actions/upload";
-import { FileInput } from "./FileInput";
+import { uploadCsvBlob, type IndexingStatus } from "../actions/upload";
+import { exportCasesToCsv } from "../actions/export";
 import { UploadButton } from "./UploadButton";
 import { ProgressIndicator } from "./ProgressIndicator";
 import { MessageDisplay } from "./MessageDisplay";
@@ -10,71 +10,60 @@ import { useIndexingStatus } from "../hooks/useIndexingStatus";
 
 /**
  * CSVアップロードセクションコンポーネント
+ * CaseテーブルからCSVを生成してDifyにアップロードする機能を提供
  *
- * @returns CSVファイルのアップロードとインデックス化進捗を管理するコンポーネント
+ * @returns CSV生成とアップロード、インデックス化進捗を管理するコンポーネント
  */
 export function CsvUploadSection() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [indexingStatus, setIndexingStatus] = useState<IndexingStatus | null>(null);
   const [isIndexing, setIsIndexing] = useState(false);
   const [currentBatch, setCurrentBatch] = useState<string | null>(null);
 
-  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.type === "text/csv" || file.name.endsWith(".csv")) {
-        setSelectedFile(file);
-        setMessage(null);
-      } else {
-        setMessage({ type: "error", text: "CSVファイルを選択してください" });
-        setSelectedFile(null);
-      }
-    }
-  }, []);
-
   const handleUpload = useCallback(async () => {
-    if (!selectedFile) {
-      setMessage({ type: "error", text: "ファイルを選択してください" });
-      return;
-    }
-
     setIsUploading(true);
     setMessage(null);
 
     try {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
+      // 1. CaseテーブルからCSVを生成
+      const exportResult = await exportCasesToCsv();
 
-      const result = await uploadCsvFile(formData);
+      if (!exportResult.success || !exportResult.csv) {
+        setMessage({
+          type: "error",
+          text: exportResult.error || "CSVの生成に失敗しました",
+        });
+        setIsUploading(false);
+        return;
+      }
 
-      if (result.success) {
+      // 2. CSV文字列をBlobに変換
+      const csvBlob = new Blob([exportResult.csv], { type: "text/csv;charset=utf-8;" });
+
+      // 3. Dify APIにアップロード
+      const uploadResult = await uploadCsvBlob(csvBlob, "cases.csv");
+
+      if (uploadResult.success) {
         setMessage({
           type: "success",
           text: "ファイルのアップロードが完了しました。インデックス化を開始します...",
         });
 
-        if (result.batch) {
-          setCurrentBatch(result.batch);
+        if (uploadResult.batch) {
+          setCurrentBatch(uploadResult.batch);
           setIsIndexing(true);
           setIndexingStatus(null);
         } else {
           setMessage({
             type: "success",
-            text: result.message,
+            text: uploadResult.message,
           });
-        }
-
-        setSelectedFile(null);
-        const fileInput = document.getElementById("csv-file-input") as HTMLInputElement;
-        if (fileInput) {
-          fileInput.value = "";
         }
       } else {
         setMessage({
           type: "error",
-          text: result.message,
+          text: uploadResult.message,
         });
       }
     } catch (error) {
@@ -85,7 +74,7 @@ export function CsvUploadSection() {
     } finally {
       setIsUploading(false);
     }
-  }, [selectedFile]);
+  }, []);
 
   const handleIndexingComplete = useCallback((status: IndexingStatus) => {
     setIsIndexing(false);
@@ -115,18 +104,18 @@ export function CsvUploadSection() {
 
   return (
     <div className="space-y-6">
+      <div className="bg-white rounded-lg border border-zinc-200 p-6">
+        <h3 className="text-lg font-semibold text-black mb-2">Difyへのアップロード</h3>
+        <p className="text-sm text-zinc-600 mb-4">
+          Caseテーブルの全データをCSV形式に変換してDifyにアップロードします。
+        </p>
 
-      <FileInput
-        selectedFile={selectedFile}
-        onChange={handleFileChange}
-        disabled={isUploading || isIndexing}
-      />
-
-      <UploadButton
-        onClick={handleUpload}
-        disabled={!selectedFile || isUploading || isIndexing}
-        isLoading={isUploading || isIndexing}
-      />
+        <UploadButton
+          onClick={handleUpload}
+          disabled={isUploading || isIndexing}
+          isLoading={isUploading || isIndexing}
+        />
+      </div>
 
       {isIndexing && indexingStatus && <ProgressIndicator status={indexingStatus} />}
 

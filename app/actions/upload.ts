@@ -4,6 +4,28 @@ interface UploadResult {
   success: boolean;
   message: string;
   documentId?: string;
+  batch?: string;
+}
+
+export interface IndexingStatus {
+  id: string;
+  indexing_status: string;
+  processing_started_at?: number;
+  parsing_completed_at?: number;
+  cleaning_completed_at?: number;
+  splitting_completed_at?: number;
+  completed_at?: number;
+  paused_at?: number;
+  error?: string;
+  stopped_at?: number;
+  completed_segments?: number;
+  total_segments?: number;
+}
+
+export interface IndexingStatusResult {
+  success: boolean;
+  data?: IndexingStatus[];
+  error?: string;
 }
 
 export async function uploadCsvFile(formData: FormData): Promise<UploadResult> {
@@ -102,11 +124,60 @@ export async function uploadCsvFile(formData: FormData): Promise<UploadResult> {
       success: true,
       message: `アップロードが成功しました！ドキュメントID: ${result.document?.id || "N/A"}`,
       documentId: result.document?.id,
+      batch: result.batch,
     };
   } catch (error) {
     return {
       success: false,
       message: error instanceof Error ? error.message : "アップロード中にエラーが発生しました",
+    };
+  }
+}
+
+export async function getIndexingStatus(
+  batch: string
+): Promise<IndexingStatusResult> {
+  const apiKey = process.env.DIFY_API_KEY;
+  const datasetId = process.env.DIFY_DATASET_ID;
+  const baseUrl = process.env.DIFY_API_BASE_URL || "https://api.dify.ai/v1";
+
+  if (!apiKey || !datasetId) {
+    return {
+      success: false,
+      error: "環境変数が設定されていません",
+    };
+  }
+
+  try {
+    const response = await fetch(
+      `${baseUrl}/datasets/${datasetId}/documents/${batch}/indexing-status`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      return {
+        success: false,
+        error:
+          errorData.message ||
+          `ステータス取得に失敗しました: ${response.status} ${response.statusText}`,
+      };
+    }
+
+    const result = await response.json();
+    return {
+      success: true,
+      data: result.data || [],
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "ステータス取得中にエラーが発生しました",
     };
   }
 }

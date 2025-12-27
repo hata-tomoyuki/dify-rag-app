@@ -142,14 +142,14 @@ export default function Home() {
   });
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-2xl flex-col items-center justify-center py-16 px-8 bg-white dark:bg-black">
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans">
+      <main className="flex min-h-screen w-full max-w-2xl flex-col items-center justify-center py-16 px-8">
         <div className="w-full space-y-8">
           <div className="text-center">
-            <h1 className="text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50 mb-4">
+            <h1 className="text-3xl font-semibold leading-10 tracking-tight text-black mb-4">
               CSVファイルアップロード
             </h1>
-            <p className="text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+            <p className="text-lg leading-8 text-zinc-600">
               DifyナレッジベースにCSVファイルをアップロードします
             </p>
           </div>

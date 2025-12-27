@@ -20,7 +20,7 @@ export function UploadButton({ onClick, disabled, isLoading }: UploadButtonProps
     <button
       onClick={onClick}
       disabled={disabled}
-      className="w-full flex items-center justify-center gap-2 h-12 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-foreground"
+      className="w-full flex items-center justify-center gap-2 h-12 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-foreground"
     >
       {isLoading ? (
         <>

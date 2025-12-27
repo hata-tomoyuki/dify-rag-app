@@ -16,8 +16,8 @@ export function MessageDisplay({ message }: MessageDisplayProps) {
     <div
       className={`p-4 rounded-lg ${
         message.type === "success"
-          ? "bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300"
-          : "bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300"
+          ? "bg-green-50 text-green-800"
+          : "bg-red-50 text-red-800"
       }`}
     >
       <p className="text-sm font-medium whitespace-pre-line">{message.text}</p>

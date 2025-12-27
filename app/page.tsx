@@ -12,11 +12,11 @@ import { CasesSection } from "./components/cases/CasesSection";
  * @returns メインページコンポーネント
  */
 export default function Home() {
-  const [activeTab, setActiveTab] = useState("csv");
+  const [activeTab, setActiveTab] = useState("cases");
 
   const tabs = [
-    { id: "csv", label: "CSVアップロード" },
     { id: "cases", label: "案件管理" },
+    { id: "csv", label: "CSVアップロード" },
   ];
 
   return (

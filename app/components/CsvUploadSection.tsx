@@ -115,10 +115,6 @@ export function CsvUploadSection() {
 
   return (
     <div className="space-y-6">
-      <div className="text-center">
-        <h2 className="text-2xl font-semibold text-black mb-2">CSVファイルアップロード</h2>
-        <p className="text-zinc-600">DifyナレッジベースにCSVファイルをアップロードします</p>
-      </div>
 
       <FileInput
         selectedFile={selectedFile}

@@ -193,6 +193,7 @@ export function CaseForm({
           id="title"
           type="text"
           value={formData.title}
+          placeholder="例: 社内DX：業務マニュアルRAG化"
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           required
           className="w-full px-3 py-2 border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-500"
@@ -221,6 +222,7 @@ export function CaseForm({
           id="industry"
           type="text"
           value={formData.industry}
+          placeholder="例: SaaS, EC・小売, 製造業"
           onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
           required
           className="w-full px-3 py-2 border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-500"
@@ -229,7 +231,7 @@ export function CaseForm({
 
       <div>
         <label htmlFor="companySize" className="block text-sm font-medium text-zinc-700 mb-2">
-          規模 <span className="text-red-500">*</span>
+          規模（人） <span className="text-red-500">*</span>
         </label>
         <input
           id="companySize"

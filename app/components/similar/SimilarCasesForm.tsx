@@ -55,6 +55,7 @@ export function SimilarCasesForm() {
               id="title"
               type="text"
               value={formData.title}
+              placeholder="例: 多言語対応LP制作"
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               required
               className="w-full px-3 py-2 border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-500"
@@ -71,7 +72,7 @@ export function SimilarCasesForm() {
               value={formData.industry}
               onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
               required
-              placeholder="例: SAAS, ECOMMERCE, MANUFACTURING"
+              placeholder="例: SaaS, EC・小売, 製造業"
               className="w-full px-3 py-2 border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-500"
             />
           </div>

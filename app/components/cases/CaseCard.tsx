@@ -38,7 +38,7 @@ export function CaseCard({ caseData }: CaseCardProps) {
           <span className="text-zinc-400">/</span>
           <span className="font-semibold">{caseData.industry}</span>
           <span className="text-zinc-400">/</span>
-          <span className="font-semibold">{caseData.companySize}</span>
+          <span className="font-semibold">{caseData.companySize}人</span>
         </div>
         <div className="flex">
           <p className="text-sm font-semibold text-zinc-700 mb-1">目的：</p>

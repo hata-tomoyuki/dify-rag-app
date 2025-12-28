@@ -21,7 +21,7 @@ async function main() {
       {
         title: "士業事務所サイト：信頼性重視のコーポレート刷新",
         clientName: "佐藤法律事務所",
-        industry: "PROFESSIONAL",
+        industry: "士業",
         companySize: "1-10",
         budgetMin: 400000,
         budgetMax: 700000,
@@ -37,7 +37,7 @@ async function main() {
       {
         title: "製造業：採用LP制作＋エントリー導線改善",
         clientName: "東日本サービス",
-        industry: "MANUFACTURING",
+        industry: "製造業",
         companySize: "51-200",
         budgetMin: 500000,
         budgetMax: 900000,
@@ -53,7 +53,7 @@ async function main() {
       {
         title: "スタートアップ：MVP用LP＋事前登録導線",
         clientName: "FutureWorks",
-        industry: "STARTUP",
+        industry: "スタートアップ",
         companySize: "1-10",
         budgetMin: 300000,
         budgetMax: 600000,
@@ -69,7 +69,7 @@ async function main() {
       {
         title: "教育サービス：教材PDFのWeb化＋検索機能",
         clientName: "ミライ教育",
-        industry: "EDUCATION",
+        industry: "教育",
         companySize: "11-30",
         budgetMin: 600000,
         budgetMax: 1000000,
@@ -85,7 +85,7 @@ async function main() {
       {
         title: "BtoB SaaS：管理画面UI改善プロジェクト",
         clientName: "NorthWind",
-        industry: "SAAS",
+        industry: "SaaS",
         companySize: "31-50",
         budgetMin: 700000,
         budgetMax: 1200000,
@@ -101,7 +101,7 @@ async function main() {
       {
         title: "観光業：多言語対応LP制作",
         clientName: "BlueOcean",
-        industry: "TOURISM",
+        industry: "観光業",
         companySize: "11-30",
         budgetMin: 500000,
         budgetMax: 900000,
@@ -117,7 +117,7 @@ async function main() {
       {
         title: "社内DX：業務マニュアルRAG化",
         clientName: "株式会社ライト",
-        industry: "CORPORATE",
+        industry: "企業・社内",
         companySize: "51-200",
         budgetMin: 900000,
         budgetMax: 1500000,
@@ -133,7 +133,7 @@ async function main() {
       {
         title: "EC：商品検索UX改善",
         clientName: "オレンジ電機",
-        industry: "ECOMMERCE",
+        industry: "EC・小売",
         companySize: "31-50",
         budgetMin: 600000,
         budgetMax: 1000000,
@@ -149,7 +149,7 @@ async function main() {
       {
         title: "社内ポータル：情報集約サイト構築",
         clientName: "中央企画",
-        industry: "CORPORATE",
+        industry: "企業・社内",
         companySize: "51-200",
         budgetMin: 500000,
         budgetMax: 800000,
@@ -165,7 +165,7 @@ async function main() {
       {
         title: "AI PoC：FAQ自動応答Bot検証",
         clientName: "株式会社Horizon",
-        industry: "SAAS",
+        industry: "SaaS",
         companySize: "11-30",
         budgetMin: 400000,
         budgetMax: 700000,

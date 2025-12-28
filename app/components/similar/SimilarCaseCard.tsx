@@ -27,7 +27,7 @@ export function SimilarCaseCard({ similarCase }: SimilarCaseCardProps) {
           <span className="text-zinc-400">/</span>
           <span className="font-semibold">{similarCase.case.industry}</span>
           <span className="text-zinc-400">/</span>
-          <span className="font-semibold">{similarCase.case.companySize}</span>
+          <span className="font-semibold">{similarCase.case.companySize}人</span>
         </div>
 
         <div>

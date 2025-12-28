@@ -24,9 +24,20 @@ export class CaseRepository implements ICaseRepository {
   async create(input: CreateCaseInput): Promise<Case> {
     return await prisma.case.create({
       data: {
-        customer: input.customer.trim(),
-        issue: input.issue.trim(),
-        response: input.response.trim(),
+        title: input.title.trim(),
+        clientName: input.clientName.trim(),
+        industry: input.industry.trim(),
+        companySize: input.companySize.trim(),
+        budgetMin: input.budgetMin,
+        budgetMax: input.budgetMax,
+        goals: input.goals.map((g) => g.trim()),
+        challenges: input.challenges.map((c) => c.trim()),
+        proposal: input.proposal.map((p) => p.trim()),
+        stack: input.stack.map((s) => s.trim()),
+        durationWeeks: input.durationWeeks,
+        deliverables: input.deliverables.map((d) => d.trim()),
+        result: input.result.trim(),
+        lessonsLearned: input.lessonsLearned.map((l) => l.trim()),
       },
     });
   }
@@ -57,15 +68,28 @@ export class CaseRepository implements ICaseRepository {
    * 案件を更新する
    */
   async update(id: string, input: UpdateCaseInput): Promise<Case> {
+    const updateData: any = {};
+
+    if (input.title !== undefined) updateData.title = input.title.trim();
+    if (input.clientName !== undefined) updateData.clientName = input.clientName.trim();
+    if (input.industry !== undefined) updateData.industry = input.industry.trim();
+    if (input.companySize !== undefined) updateData.companySize = input.companySize.trim();
+    if (input.budgetMin !== undefined) updateData.budgetMin = input.budgetMin;
+    if (input.budgetMax !== undefined) updateData.budgetMax = input.budgetMax;
+    if (input.goals !== undefined) updateData.goals = input.goals.map((g) => g.trim());
+    if (input.challenges !== undefined) updateData.challenges = input.challenges.map((c) => c.trim());
+    if (input.proposal !== undefined) updateData.proposal = input.proposal.map((p) => p.trim());
+    if (input.stack !== undefined) updateData.stack = input.stack.map((s) => s.trim());
+    if (input.durationWeeks !== undefined) updateData.durationWeeks = input.durationWeeks;
+    if (input.deliverables !== undefined) updateData.deliverables = input.deliverables.map((d) => d.trim());
+    if (input.result !== undefined) updateData.result = input.result.trim();
+    if (input.lessonsLearned !== undefined) updateData.lessonsLearned = input.lessonsLearned.map((l) => l.trim());
+
     return await prisma.case.update({
       where: {
         id,
       },
-      data: {
-        ...(input.customer !== undefined && { customer: input.customer.trim() }),
-        ...(input.issue !== undefined && { issue: input.issue.trim() }),
-        ...(input.response !== undefined && { response: input.response.trim() }),
-      },
+      data: updateData,
     });
   }
 

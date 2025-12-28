@@ -4,23 +4,56 @@
 
 export interface Case {
   id: string;
-  customer: string;
-  issue: string;
-  response: string;
+  title: string;
+  clientName: string;
+  industry: string;
+  companySize: string;
+  budgetMin: number;
+  budgetMax: number;
+  goals: string[];
+  challenges: string[];
+  proposal: string[];
+  stack: string[];
+  durationWeeks: number;
+  deliverables: string[];
+  result: string;
+  lessonsLearned: string[];
   updatedAt: Date;
   createdAt: Date;
 }
 
 export interface CreateCaseInput {
-  customer: string;
-  issue: string;
-  response: string;
+  title: string;
+  clientName: string;
+  industry: string;
+  companySize: string;
+  budgetMin: number;
+  budgetMax: number;
+  goals: string[];
+  challenges: string[];
+  proposal: string[];
+  stack: string[];
+  durationWeeks: number;
+  deliverables: string[];
+  result: string;
+  lessonsLearned: string[];
 }
 
 export interface UpdateCaseInput {
-  customer?: string;
-  issue?: string;
-  response?: string;
+  title?: string;
+  clientName?: string;
+  industry?: string;
+  companySize?: string;
+  budgetMin?: number;
+  budgetMax?: number;
+  goals?: string[];
+  challenges?: string[];
+  proposal?: string[];
+  stack?: string[];
+  durationWeeks?: number;
+  deliverables?: string[];
+  result?: string;
+  lessonsLearned?: string[];
 }
 
 export interface CaseResult {

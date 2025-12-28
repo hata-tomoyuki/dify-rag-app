@@ -29,17 +29,28 @@ export function CaseCard({ caseData }: CaseCardProps) {
       className="block p-4 bg-white border border-zinc-200 rounded-lg hover:shadow-md transition-shadow"
     >
       <div className="flex items-start justify-between mb-2">
-        <h3 className="text-lg font-semibold text-zinc-900">{caseData.customer}</h3>
-        <span className="text-xs text-zinc-500">{formatDate(caseData.updatedAt)}</span>
+        <h3 className="text-lg font-semibold text-zinc-900 line-clamp-1">{caseData.title}</h3>
+        <span className="text-xs text-zinc-500 whitespace-nowrap ml-2">{formatDate(caseData.updatedAt)}</span>
       </div>
       <div className="space-y-2">
-        <div>
-          <p className="text-sm font-medium text-zinc-700 mb-1">課題</p>
-          <p className="text-sm text-zinc-600 line-clamp-2">{caseData.issue}</p>
+        <div className="flex items-center gap-2 text-sm text-zinc-600">
+          <span className="font-medium">{caseData.clientName}</span>
+          <span className="text-zinc-400">•</span>
+          <span>{caseData.industry}</span>
+          <span className="text-zinc-400">•</span>
+          <span>{caseData.companySize}</span>
         </div>
         <div>
-          <p className="text-sm font-medium text-zinc-700 mb-1">対応</p>
-          <p className="text-sm text-zinc-600 line-clamp-2">{caseData.response}</p>
+          <p className="text-sm font-medium text-zinc-700 mb-1">目的</p>
+          <p className="text-sm text-zinc-600 line-clamp-1">{caseData.goals.join(", ")}</p>
+        </div>
+        <div>
+          <p className="text-sm font-medium text-zinc-700 mb-1">技術スタック</p>
+          <p className="text-sm text-zinc-600 line-clamp-1">{caseData.stack.join(", ")}</p>
+        </div>
+        <div className="flex items-center justify-between text-xs text-zinc-500">
+          <span>予算: {caseData.budgetMin.toLocaleString()}〜{caseData.budgetMax.toLocaleString()}円</span>
+          <span>期間: {caseData.durationWeeks}週</span>
         </div>
       </div>
     </Link>

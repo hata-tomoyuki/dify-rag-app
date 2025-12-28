@@ -18,6 +18,13 @@ export class CsvService {
   }
 
   /**
+   * 配列をCSV用の文字列に変換する（セミコロン区切り）
+   */
+  arrayToCsvString(array: string[]): string {
+    return array.map((item) => this.escapeCsvValue(item)).join("; ");
+  }
+
+  /**
    * 案件データの配列をCSV形式の文字列に変換する
    */
   generateCsv(cases: Case[]): string {
@@ -26,16 +33,41 @@ export class CsvService {
     }
 
     // CSVヘッダー
-    const headers = ["案件ID", "顧客", "課題", "対応"];
+    const headers = [
+      "案件ID",
+      "案件名",
+      "クライアント名",
+      "業種",
+      "規模",
+      "予算最小値",
+      "予算最大値",
+      "目的",
+      "課題",
+      "提案要点",
+      "技術スタック",
+      "期間（週）",
+      "成果物",
+      "反省・注意点",
+    ];
     const csvRows: string[] = [headers.join(",")];
 
     // CSVデータ行を生成
     for (const caseData of cases) {
       const row = [
         this.escapeCsvValue(caseData.id),
-        this.escapeCsvValue(caseData.customer),
-        this.escapeCsvValue(caseData.issue),
-        this.escapeCsvValue(caseData.response),
+        this.escapeCsvValue(caseData.title),
+        this.escapeCsvValue(caseData.clientName),
+        this.escapeCsvValue(caseData.industry),
+        this.escapeCsvValue(caseData.companySize),
+        caseData.budgetMin.toString(),
+        caseData.budgetMax.toString(),
+        this.arrayToCsvString(caseData.goals),
+        this.arrayToCsvString(caseData.challenges),
+        this.arrayToCsvString(caseData.proposal),
+        this.arrayToCsvString(caseData.stack),
+        caseData.durationWeeks.toString(),
+        this.arrayToCsvString(caseData.deliverables),
+        this.arrayToCsvString(caseData.lessonsLearned),
       ];
       csvRows.push(row.join(","));
     }

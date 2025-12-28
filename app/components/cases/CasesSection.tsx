@@ -41,7 +41,7 @@ export function CasesSection() {
     setIsGeneratingChunks(true);
     setError(null);
     setChunkMessage(null);
-    setShowConfirmModal(false);
+    // モーダルは開いたままにする
 
     const result = await generateChunksForAllCases();
 
@@ -56,6 +56,8 @@ export function CasesSection() {
     }
 
     setIsGeneratingChunks(false);
+    // 処理完了後にモーダルを閉じる
+    setShowConfirmModal(false);
   };
 
   if (isLoading) {
@@ -82,6 +84,8 @@ export function CasesSection() {
         message="全案件のチャンクを生成しますか？この処理には時間がかかる場合があります。個別の案件ごとにナレッジを更新することも可能です。"
         confirmLabel="実行"
         cancelLabel="キャンセル"
+        isLoading={isGeneratingChunks}
+        loadingMessage="更新中..."
         onConfirm={handleGenerateChunksForAll}
         onCancel={() => setShowConfirmModal(false)}
       />

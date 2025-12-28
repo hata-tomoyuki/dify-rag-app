@@ -2,6 +2,37 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### 環境変数の設定
+
+`.env.local`ファイルを作成し、以下の環境変数を設定してください：
+
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+OPENAI_API_KEY=sk-...
+AUTH_SECRET=your-secret-key-here
+AUTH_URL=http://localhost:3000
+```
+
+`AUTH_SECRET`は以下のコマンドで生成できます：
+```bash
+openssl rand -base64 32
+```
+
+### データベースのセットアップ
+
+```bash
+# マイグレーションの実行
+npx prisma migrate dev
+
+# Prismaクライアントの生成
+npx prisma generate
+
+# シードデータの投入（オプション）
+npx prisma db seed
+```
+
+### 開発サーバーの起動
+
 First, run the development server:
 
 ```bash

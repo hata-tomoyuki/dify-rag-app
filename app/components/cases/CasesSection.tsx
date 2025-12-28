@@ -78,23 +78,20 @@ export function CasesSection() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-semibold text-black mb-2">案件一覧</h2>
-          <p className="text-zinc-600">登録されている案件を確認・管理できます</p>
-        </div>
+        <h2 className="text-2xl font-semibold text-black">過去の案件一覧</h2>
         <div className="flex gap-2">
           <button
             onClick={handleGenerateChunksForAll}
             disabled={isGeneratingChunks || cases.length === 0}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isGeneratingChunks ? "生成中..." : "全案件のチャンク生成"}
+            {isGeneratingChunks ? "更新中..." : "案件ナレッジを更新"}
           </button>
           <Link
             href="/cases/new"
             className="px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800"
           >
-            新規作成
+            案件を登録
           </Link>
         </div>
       </div>

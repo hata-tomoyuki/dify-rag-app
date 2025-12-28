@@ -23,7 +23,7 @@ export function Tabs({ activeTab, onTabChange, tabs }: TabsProps) {
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`py-4 px-1 border-b-2 font-medium text-sm ${
+            className={`py-4 px-1 border-b-2 font-medium text-sm cursor-pointer ${
               activeTab === tab.id
                 ? "border-zinc-900 text-zinc-900"
                 : "border-transparent text-zinc-500 hover:text-zinc-700 hover:border-zinc-300"

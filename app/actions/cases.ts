@@ -7,6 +7,7 @@ import { GetCasesUseCase } from "@/lib/usecases/cases/GetCasesUseCase";
 import { UpdateCaseUseCase } from "@/lib/usecases/cases/UpdateCaseUseCase";
 import { DeleteCaseUseCase } from "@/lib/usecases/cases/DeleteCaseUseCase";
 import { GenerateCaseChunksUseCase } from "@/lib/usecases/chunks/GenerateCaseChunksUseCase";
+import { CaseChunkRepository } from "@/lib/repositories/CaseChunkRepository";
 import type {
   Case as CaseType,
   CreateCaseInput as CreateCaseInputType,
@@ -84,7 +85,16 @@ export async function updateCase(
   const useCase = new UpdateCaseUseCase();
   const result = await useCase.execute(id, input);
 
-  if (result.success) {
+  if (result.success && result.data) {
+    // Case更新後にチャンクを自動再生成
+    try {
+      const chunkUseCase = new GenerateCaseChunksUseCase();
+      await chunkUseCase.execute(result.data);
+    } catch (error) {
+      // チャンク生成に失敗してもCase更新は成功とする（ログに記録するなど）
+      console.error("チャンク再生成に失敗しました:", error);
+    }
+
     revalidatePath("/");
     revalidatePath(`/cases/${id}`);
   }
@@ -99,6 +109,15 @@ export async function updateCase(
  * @returns 削除結果（成功/失敗、エラーメッセージ）
  */
 export async function deleteCase(id: string): Promise<{ success: boolean; error?: string }> {
+  // Case削除前にチャンクを削除（Cascadeで自動削除されるが、明示的に削除）
+  try {
+    const chunkRepository = new CaseChunkRepository();
+    await chunkRepository.deleteByCaseId(id);
+  } catch (error) {
+    // チャンク削除に失敗してもCase削除は続行する（ログに記録するなど）
+    console.error("チャンク削除に失敗しました:", error);
+  }
+
   const useCase = new DeleteCaseUseCase();
   const result = await useCase.execute(id);
 

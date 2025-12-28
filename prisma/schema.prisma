@@ -14,23 +14,37 @@ datasource db {
 }
 
 model Case {
-  id             String    @id @default(uuid())
-  title          String    // 案件名
-  clientName     String    // クライアント名
-  industry       String    // 業種
-  companySize    String    // 規模
-  budgetMin      Int       // 予算最小値（円）
-  budgetMax      Int       // 予算最大値（円）
-  goals          String[]  // 目的（複数）
-  challenges     String[]  // 課題（複数）
-  proposal       String[]  // 提案要点（複数）
-  stack          String[]  // 技術スタック（複数）
-  durationWeeks  Int       // 期間（週）
-  deliverables   String[]  // 成果物（複数）
-  result         String    // 成果（自由記述）
-  lessonsLearned String[]  // 反省・注意点（複数）
-  updatedAt      DateTime  @updatedAt
-  createdAt      DateTime  @default(now())
+  id             String       @id @default(uuid())
+  title          String       // 案件名
+  clientName     String       // クライアント名
+  industry       String       // 業種
+  companySize    String       // 規模
+  budgetMin      Int          // 予算最小値（円）
+  budgetMax      Int          // 予算最大値（円）
+  goals          String[]     // 目的（複数）
+  challenges     String[]     // 課題（複数）
+  proposal       String[]     // 提案要点（複数）
+  stack          String[]     // 技術スタック（複数）
+  durationWeeks  Int          // 期間（週）
+  deliverables   String[]     // 成果物（複数）
+  result         String       // 成果（自由記述）
+  lessonsLearned String[]     // 反省・注意点（複数）
+  updatedAt      DateTime     @updatedAt
+  createdAt      DateTime     @default(now())
+  chunks         CaseChunk[]
 
   @@map("cases")
+}
+
+model CaseChunk {
+  id        String   @id @default(uuid())
+  caseId    String   @map("case_id")
+  role      String   // summary, challenge, solution, result, similarity_reason
+  text      String
+  embedding Unsupported("vector(3072)") // text-embedding-3-largeの次元数
+  createdAt DateTime @default(now())
+  case      Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  @@index([caseId])
+  @@map("case_chunks")
 }

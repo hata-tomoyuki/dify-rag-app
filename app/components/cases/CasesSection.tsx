@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getCases } from "@/app/actions/cases";
 import { generateChunksForAllCases } from "@/app/actions/chunks";
+import { ConfirmModal } from "@/app/components/ConfirmModal";
 import { CaseList } from "./CaseList";
 import type { Case } from "@/app/actions/cases";
 
@@ -18,6 +19,7 @@ export function CasesSection() {
   const [isGeneratingChunks, setIsGeneratingChunks] = useState(false);
   const [chunkMessage, setChunkMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     const loadCases = async () => {
@@ -36,13 +38,10 @@ export function CasesSection() {
   }, []);
 
   const handleGenerateChunksForAll = async () => {
-    if (!confirm("全案件のチャンクを生成しますか？この処理には時間がかかる場合があります。")) {
-      return;
-    }
-
     setIsGeneratingChunks(true);
     setError(null);
     setChunkMessage(null);
+    setShowConfirmModal(false);
 
     const result = await generateChunksForAllCases();
 
@@ -77,15 +76,25 @@ export function CasesSection() {
 
   return (
     <div className="space-y-6">
+      <ConfirmModal
+        isOpen={showConfirmModal}
+        title="案件ナレッジを一括更新"
+        message="全案件のチャンクを生成しますか？この処理には時間がかかる場合があります。個別の案件ごとにナレッジを更新することも可能です。"
+        confirmLabel="実行"
+        cancelLabel="キャンセル"
+        onConfirm={handleGenerateChunksForAll}
+        onCancel={() => setShowConfirmModal(false)}
+      />
+
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-black">過去の案件一覧</h2>
         <div className="flex gap-2">
           <button
-            onClick={handleGenerateChunksForAll}
+            onClick={() => setShowConfirmModal(true)}
             disabled={isGeneratingChunks || cases.length === 0}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isGeneratingChunks ? "更新中..." : "案件ナレッジを更新"}
+            {isGeneratingChunks ? "一括更新中..." : "案件ナレッジを一括更新"}
           </button>
           <Link
             href="/cases/new"

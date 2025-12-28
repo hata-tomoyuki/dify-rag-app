@@ -80,12 +80,23 @@ export class LlmService {
 
     try {
       const parsed = JSON.parse(content) as ChunkGenerationResult;
+      // 各フィールドを文字列に変換（数値やオブジェクトが返される場合に対応）
+      const ensureString = (value: unknown): string => {
+        if (typeof value === "string") {
+          return value;
+        }
+        if (value === null || value === undefined) {
+          return "";
+        }
+        return String(value);
+      };
+
       return {
-        summary: parsed.summary || "",
-        challenge: parsed.challenge || "",
-        solution: parsed.solution || "",
-        result: parsed.result || "",
-        similarity_reason: parsed.similarity_reason || "",
+        summary: ensureString(parsed.summary),
+        challenge: ensureString(parsed.challenge),
+        solution: ensureString(parsed.solution),
+        result: ensureString(parsed.result),
+        similarity_reason: ensureString(parsed.similarity_reason),
       };
     } catch (error) {
       throw new Error(`LLM応答のパースに失敗しました: ${error instanceof Error ? error.message : String(error)}`);

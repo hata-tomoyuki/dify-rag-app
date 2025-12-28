@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getCases } from "@/app/actions/cases";
+import { generateChunksForAllCases } from "@/app/actions/chunks";
 import { CaseList } from "./CaseList";
 import type { Case } from "@/app/actions/cases";
 
@@ -14,6 +15,8 @@ import type { Case } from "@/app/actions/cases";
 export function CasesSection() {
   const [cases, setCases] = useState<Case[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isGeneratingChunks, setIsGeneratingChunks] = useState(false);
+  const [chunkMessage, setChunkMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -31,6 +34,30 @@ export function CasesSection() {
 
     loadCases();
   }, []);
+
+  const handleGenerateChunksForAll = async () => {
+    if (!confirm("全案件のチャンクを生成しますか？この処理には時間がかかる場合があります。")) {
+      return;
+    }
+
+    setIsGeneratingChunks(true);
+    setError(null);
+    setChunkMessage(null);
+
+    const result = await generateChunksForAllCases();
+
+    if (result.success) {
+      const processedInfo = result.processedCases
+        ? `${result.processedCases}件の案件を処理し、`
+        : "";
+      const chunksInfo = result.chunksCreated ? `${result.chunksCreated}個のチャンク` : "チャンク";
+      setChunkMessage(`${processedInfo}${chunksInfo}が作成されました。${result.error || ""}`);
+    } else {
+      setError(result.error || "チャンク生成に失敗しました");
+    }
+
+    setIsGeneratingChunks(false);
+  };
 
   if (isLoading) {
     return (
@@ -55,13 +82,34 @@ export function CasesSection() {
           <h2 className="text-2xl font-semibold text-black mb-2">案件一覧</h2>
           <p className="text-zinc-600">登録されている案件を確認・管理できます</p>
         </div>
-        <Link
-          href="/cases/new"
-          className="px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800"
-        >
-          新規作成
-        </Link>
+        <div className="flex gap-2">
+          <button
+            onClick={handleGenerateChunksForAll}
+            disabled={isGeneratingChunks || cases.length === 0}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isGeneratingChunks ? "生成中..." : "全案件のチャンク生成"}
+          </button>
+          <Link
+            href="/cases/new"
+            className="px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800"
+          >
+            新規作成
+          </Link>
+        </div>
       </div>
+
+      {chunkMessage && (
+        <div className="p-4 rounded-lg bg-green-50 text-green-800">
+          <p className="text-sm font-medium">{chunkMessage}</p>
+        </div>
+      )}
+
+      {error && (
+        <div className="p-4 rounded-lg bg-red-50 text-red-800">
+          <p className="text-sm font-medium">{error}</p>
+        </div>
+      )}
 
       <CaseList cases={cases} />
     </div>

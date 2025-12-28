@@ -47,7 +47,8 @@ export class GenerateCaseChunksUseCase {
 
       for (const role of roles) {
         const text = chunks[role];
-        if (!text.trim()) {
+        // textが文字列でない場合や空の場合はスキップ
+        if (!text || typeof text !== "string" || !text.trim()) {
           continue; // 空のチャンクはスキップ
         }
 

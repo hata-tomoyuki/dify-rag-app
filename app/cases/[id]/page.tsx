@@ -4,6 +4,7 @@ import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getCaseById, updateCase, deleteCase } from "@/app/actions/cases";
+import { generateChunksForCase } from "@/app/actions/chunks";
 import { CaseForm } from "@/app/components/cases/CaseForm";
 import type { Case, CreateCaseInput, UpdateCaseInput } from "@/app/actions/cases";
 
@@ -21,6 +22,8 @@ export default function CaseDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isGeneratingChunks, setIsGeneratingChunks] = useState(false);
+  const [chunkMessage, setChunkMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -72,6 +75,22 @@ export default function CaseDetailPage() {
       setError(result.error || "案件の削除に失敗しました");
       setIsDeleting(false);
     }
+  };
+
+  const handleGenerateChunks = async () => {
+    setIsGeneratingChunks(true);
+    setError(null);
+    setChunkMessage(null);
+
+    const result = await generateChunksForCase(id);
+
+    if (result.success) {
+      setChunkMessage(`チャンク生成が完了しました。${result.chunksCreated || 0}個のチャンクが作成されました。`);
+    } else {
+      setError(result.error || "チャンク生成に失敗しました");
+    }
+
+    setIsGeneratingChunks(false);
   };
 
   const formatDate = (date: Date) => {
@@ -132,6 +151,13 @@ export default function CaseDetailPage() {
             {!isEditing && (
               <div className="flex gap-2">
                 <button
+                  onClick={handleGenerateChunks}
+                  disabled={isGeneratingChunks}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                >
+                  {isGeneratingChunks ? "生成中..." : "チャンク生成"}
+                </button>
+                <button
                   onClick={() => setIsEditing(true)}
                   className="px-4 py-2 border border-zinc-300 rounded-lg hover:bg-zinc-50"
                 >
@@ -151,6 +177,12 @@ export default function CaseDetailPage() {
           {error && (
             <div className="mb-6 p-4 rounded-lg bg-red-50 text-red-800">
               <p className="text-sm font-medium">{error}</p>
+            </div>
+          )}
+
+          {chunkMessage && (
+            <div className="mb-6 p-4 rounded-lg bg-green-50 text-green-800">
+              <p className="text-sm font-medium">{chunkMessage}</p>
             </div>
           )}
 

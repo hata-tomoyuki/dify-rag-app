@@ -38,25 +38,29 @@ export class CaseChunkRepository implements ICaseChunkRepository {
    * caseIdでチャンクを取得する
    */
   async findByCaseId(caseId: string): Promise<CaseChunk[]> {
-    return await prisma.caseChunk.findMany({
-      where: {
-        caseId,
-      },
-      orderBy: {
-        createdAt: "asc",
-      },
-    });
+    // Prismaのraw queryを使用（vector型はUnsupported型のため）
+    return await prisma.$queryRaw<CaseChunk[]>`
+      SELECT
+        id,
+        case_id as "caseId",
+        role,
+        text,
+        embedding,
+        "createdAt"
+      FROM case_chunks
+      WHERE case_id = ${caseId}
+      ORDER BY "createdAt" ASC
+    `;
   }
 
   /**
    * caseIdでチャンクを削除する
    */
   async deleteByCaseId(caseId: string): Promise<void> {
-    await prisma.caseChunk.deleteMany({
-      where: {
-        caseId,
-      },
-    });
+    // Prismaのraw queryを使用（vector型はUnsupported型のため）
+    await prisma.$executeRaw`
+      DELETE FROM case_chunks WHERE case_id = ${caseId}
+    `;
   }
 
   /**

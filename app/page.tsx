@@ -28,7 +28,7 @@ export default function Home() {
               類似案件提案アシスタント
             </h1>
             <p className="text-lg leading-8 text-zinc-600">
-              新規案件の情報を入力すると、過去の類似案件を最大3件提示します
+              過去の案件から AI が類似案件を提案し、効率的な案件管理をサポート
             </p>
           </div>
 

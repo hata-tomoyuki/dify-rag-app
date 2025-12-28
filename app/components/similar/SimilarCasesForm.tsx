@@ -115,7 +115,7 @@ export function SimilarCasesForm() {
           <button
             type="submit"
             disabled={isSearching}
-            className="w-full px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-2 bg-zinc-900 text-white rounded-lg cursor-pointer hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSearching ? "検索中..." : "類似案件を検索"}
           </button>

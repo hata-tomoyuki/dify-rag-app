@@ -6,6 +6,7 @@ import { GetCaseUseCase } from "@/lib/usecases/cases/GetCaseUseCase";
 import { GetCasesUseCase } from "@/lib/usecases/cases/GetCasesUseCase";
 import { UpdateCaseUseCase } from "@/lib/usecases/cases/UpdateCaseUseCase";
 import { DeleteCaseUseCase } from "@/lib/usecases/cases/DeleteCaseUseCase";
+import { GenerateCaseChunksUseCase } from "@/lib/usecases/chunks/GenerateCaseChunksUseCase";
 import type {
   Case as CaseType,
   CreateCaseInput as CreateCaseInputType,
@@ -31,7 +32,16 @@ export async function createCase(input: CreateCaseInput): Promise<CaseResult> {
   const useCase = new CreateCaseUseCase();
   const result = await useCase.execute(input);
 
-  if (result.success) {
+  if (result.success && result.data) {
+    // Case作成後にチャンクを自動生成
+    try {
+      const chunkUseCase = new GenerateCaseChunksUseCase();
+      await chunkUseCase.execute(result.data);
+    } catch (error) {
+      // チャンク生成に失敗してもCase作成は成功とする（ログに記録するなど）
+      console.error("チャンク生成に失敗しました:", error);
+    }
+
     revalidatePath("/");
     revalidatePath("/cases");
   }

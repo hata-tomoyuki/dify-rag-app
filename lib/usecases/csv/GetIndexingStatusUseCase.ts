@@ -1,6 +1,17 @@
 import { DifyRepository } from "@/lib/repositories/DifyRepository";
-import { DifyService } from "@/lib/services/DifyService";
 import type { IndexingStatusResult } from "@/lib/usecases/types";
+
+function getDifyBaseConfig() {
+  const apiKey = process.env.DIFY_API_KEY;
+  const datasetId = process.env.DIFY_DATASET_ID;
+  const baseUrl = process.env.DIFY_API_BASE_URL || "https://api.dify.ai/v1";
+
+  if (!apiKey || !datasetId) {
+    throw new Error("環境変数が設定されていません");
+  }
+
+  return { apiKey, datasetId, baseUrl };
+}
 
 /**
  * GetIndexingStatusUseCase
@@ -8,22 +19,14 @@ import type { IndexingStatusResult } from "@/lib/usecases/types";
  */
 export class GetIndexingStatusUseCase {
   private difyRepository: DifyRepository;
-  private difyService: DifyService;
 
   constructor() {
     this.difyRepository = new DifyRepository();
-    this.difyService = new DifyService();
   }
 
   async execute(batch: string): Promise<IndexingStatusResult> {
     try {
-      // Dify設定を取得（docFormは不要なので除外）
-      const fullConfig = this.difyService.getConfig();
-      const config = {
-        apiKey: fullConfig.apiKey,
-        datasetId: fullConfig.datasetId,
-        baseUrl: fullConfig.baseUrl,
-      };
+      const config = getDifyBaseConfig();
 
       // ステータスを取得
       const data = await this.difyRepository.getIndexingStatus(batch, config);

@@ -2,6 +2,7 @@ import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import pg from "pg";
+import bcrypt from "bcryptjs";
 
 const { Pool } = pg;
 
@@ -15,7 +16,9 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
+    // 既存データを削除
     await prisma.case.deleteMany({});
+    await prisma.user.deleteMany({});
 
     const cases = [
       {
@@ -185,6 +188,18 @@ async function main() {
     await prisma.case.createMany({ data: cases });
 
     console.log(`✅ 案件データ ${cases.length} 件を投入しました`);
+
+    // 固定ユーザーを作成
+    const hashedPassword = await bcrypt.hash("password123", 10);
+    await prisma.user.create({
+      data: {
+        email: "admin@aaa.test",
+        password: hashedPassword,
+        name: "管理者",
+      },
+    });
+
+    console.log(`✅ ユーザーデータを投入しました（admin@aaa.test）`);
   }
 
 

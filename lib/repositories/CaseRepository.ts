@@ -68,7 +68,7 @@ export class CaseRepository implements ICaseRepository {
    * 案件を更新する
    */
   async update(id: string, input: UpdateCaseInput): Promise<Case> {
-    const updateData: any = {};
+    const updateData: Record<string, unknown> = {};
 
     if (input.title !== undefined) updateData.title = input.title.trim();
     if (input.clientName !== undefined) updateData.clientName = input.clientName.trim();

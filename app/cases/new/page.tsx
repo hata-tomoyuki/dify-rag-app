@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { createCase } from "@/app/actions/cases";
 import { CaseForm } from "@/app/components/cases/CaseForm";
-import type { CreateCaseInput } from "@/app/actions/cases";
+import type { CreateCaseInput, UpdateCaseInput } from "@/app/actions/cases";
 
 /**
  * 新規案件作成ページ
@@ -17,11 +17,11 @@ export default function NewCasePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (data: CreateCaseInput) => {
+  const handleSubmit = async (data: CreateCaseInput | UpdateCaseInput) => {
     setIsSubmitting(true);
     setError(null);
 
-    const result = await createCase(data);
+    const result = await createCase(data as CreateCaseInput);
 
     if (result.success) {
       router.push("/");

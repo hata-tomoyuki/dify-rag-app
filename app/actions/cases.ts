@@ -109,7 +109,6 @@ export async function updateCase(
  * @returns 削除結果（成功/失敗、エラーメッセージ）
  */
 export async function deleteCase(id: string): Promise<{ success: boolean; error?: string }> {
-  // Case削除前にチャンクを削除（Cascadeで自動削除されるが、明示的に削除）
   try {
     const chunkRepository = new CaseChunkRepository();
     await chunkRepository.deleteByCaseId(id);

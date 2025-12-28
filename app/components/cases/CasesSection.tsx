@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { getCases } from "@/app/actions/cases";
 import { generateChunksForAllCases } from "@/app/actions/chunks";
 import { ConfirmModal } from "@/app/components/ConfirmModal";
@@ -14,6 +15,7 @@ import type { Case } from "@/app/actions/cases";
  * @returns 案件一覧を表示するコンポーネント
  */
 export function CasesSection() {
+  const { data: session } = useSession();
   const [cases, setCases] = useState<Case[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isGeneratingChunks, setIsGeneratingChunks] = useState(false);
@@ -93,19 +95,30 @@ export function CasesSection() {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-black">過去の案件一覧</h2>
         <div className="flex gap-2">
-          <button
-            onClick={() => setShowConfirmModal(true)}
-            disabled={isGeneratingChunks || cases.length === 0}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isGeneratingChunks ? "一括更新中..." : "案件ナレッジを一括更新"}
-          </button>
-          <Link
-            href="/cases/new"
-            className="px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800"
-          >
-            案件を登録
-          </Link>
+          {session?.user ? (
+            <>
+              <button
+                onClick={() => setShowConfirmModal(true)}
+                disabled={isGeneratingChunks || cases.length === 0}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isGeneratingChunks ? "一括更新中..." : "案件ナレッジを一括更新"}
+              </button>
+              <Link
+                href="/cases/new"
+                className="px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800"
+              >
+                案件を登録
+              </Link>
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className="px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800"
+            >
+              ログインして案件を管理
+            </Link>
+          )}
         </div>
       </div>
 

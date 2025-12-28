@@ -12,13 +12,13 @@ interface SimilarCaseCardProps {
  */
 export function SimilarCaseCard({ similarCase }: SimilarCaseCardProps) {
   return (
-    <div className="bg-white border border-zinc-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+    <Link href={`/cases/${similarCase.case.id}`} className="block p-4 bg-white border border-zinc-300 rounded-lg shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300">
       <div className="flex items-start justify-between mb-3">
-        <Link href={`/cases/${similarCase.case.id}`} className="flex-1">
+        <div className="flex-1">
           <h4 className="text-lg font-semibold text-zinc-900 hover:text-zinc-700">
             {similarCase.case.title}
           </h4>
-        </Link>
+        </div>
       </div>
 
       <div className="space-y-3">
@@ -51,7 +51,7 @@ export function SimilarCaseCard({ similarCase }: SimilarCaseCardProps) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

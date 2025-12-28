@@ -26,7 +26,7 @@ export function CaseCard({ caseData }: CaseCardProps) {
   return (
     <Link
       href={`/cases/${caseData.id}`}
-      className="block p-4 bg-white border border-zinc-300 rounded-lg shadow-sm hover:shadow-md hover:scale-105 transition-all"
+      className="block p-4 bg-white border border-zinc-300 rounded-lg shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300"
     >
       <div className="flex items-start justify-between mb-2">
         <h3 className="text-lg font-semibold text-zinc-900 line-clamp-1">{caseData.title}</h3>

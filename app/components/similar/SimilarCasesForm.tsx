@@ -27,6 +27,7 @@ export function SimilarCasesForm() {
     try {
       const result = await findSimilarCases(formData);
       if (result.success && result.data) {
+        console.log("類似案件検索結果:", result.data);
         setSimilarCases(result.data);
       } else {
         setError(result.error || "類似案件の検索に失敗しました");
@@ -48,7 +49,7 @@ export function SimilarCasesForm() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-zinc-700 mb-2">
+            <label htmlFor="title" className="block text-sm font-medium text-zinc-900 mb-2">
               案件名 <span className="text-red-500">*</span>
             </label>
             <input
@@ -63,7 +64,7 @@ export function SimilarCasesForm() {
           </div>
 
           <div>
-            <label htmlFor="industry" className="block text-sm font-medium text-zinc-700 mb-2">
+            <label htmlFor="industry" className="block text-sm font-medium text-zinc-900 mb-2">
               業種 <span className="text-red-500">*</span>
             </label>
             <input
@@ -78,7 +79,7 @@ export function SimilarCasesForm() {
           </div>
 
           <div>
-            <label htmlFor="companySize" className="block text-sm font-medium text-zinc-700 mb-2">
+            <label htmlFor="companySize" className="block text-sm font-medium text-zinc-900 mb-2">
               規模 <span className="text-red-500">*</span>
             </label>
             <input
@@ -93,7 +94,7 @@ export function SimilarCasesForm() {
           </div>
 
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-zinc-700 mb-2">
+            <label htmlFor="description" className="block text-sm font-medium text-zinc-900 mb-2">
               案件概要 <span className="text-red-500">*</span>
             </label>
             <textarea

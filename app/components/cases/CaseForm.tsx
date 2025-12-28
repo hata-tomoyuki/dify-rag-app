@@ -40,7 +40,7 @@ function ArrayField({
 
   return (
     <div>
-      <label className="block text-sm font-medium text-zinc-700 mb-2">
+      <label className="block text-sm font-medium text-zinc-900 mb-2">
         {label} <span className="text-red-500">*</span>
       </label>
       <div className="space-y-2">
@@ -186,7 +186,7 @@ export function CaseForm({
       )}
 
       <div>
-        <label htmlFor="title" className="block text-sm font-medium text-zinc-700 mb-2">
+        <label htmlFor="title" className="block text-sm font-medium text-zinc-900 mb-2">
           案件名 <span className="text-red-500">*</span>
         </label>
         <input
@@ -201,7 +201,7 @@ export function CaseForm({
       </div>
 
       <div>
-        <label htmlFor="clientName" className="block text-sm font-medium text-zinc-700 mb-2">
+        <label htmlFor="clientName" className="block text-sm font-medium text-zinc-900 mb-2">
           クライアント名 <span className="text-red-500">*</span>
         </label>
         <input
@@ -215,7 +215,7 @@ export function CaseForm({
       </div>
 
       <div>
-        <label htmlFor="industry" className="block text-sm font-medium text-zinc-700 mb-2">
+        <label htmlFor="industry" className="block text-sm font-medium text-zinc-900 mb-2">
           業種 <span className="text-red-500">*</span>
         </label>
         <input
@@ -230,7 +230,7 @@ export function CaseForm({
       </div>
 
       <div>
-        <label htmlFor="companySize" className="block text-sm font-medium text-zinc-700 mb-2">
+        <label htmlFor="companySize" className="block text-sm font-medium text-zinc-900 mb-2">
           規模（人） <span className="text-red-500">*</span>
         </label>
         <input
@@ -246,7 +246,7 @@ export function CaseForm({
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label htmlFor="budgetMin" className="block text-sm font-medium text-zinc-700 mb-2">
+          <label htmlFor="budgetMin" className="block text-sm font-medium text-zinc-900 mb-2">
             予算最小値（円） <span className="text-red-500">*</span>
           </label>
           <input
@@ -260,7 +260,7 @@ export function CaseForm({
           />
         </div>
         <div>
-          <label htmlFor="budgetMax" className="block text-sm font-medium text-zinc-700 mb-2">
+          <label htmlFor="budgetMax" className="block text-sm font-medium text-zinc-900 mb-2">
             予算最大値（円） <span className="text-red-500">*</span>
           </label>
           <input
@@ -304,7 +304,7 @@ export function CaseForm({
       />
 
       <div>
-        <label htmlFor="durationWeeks" className="block text-sm font-medium text-zinc-700 mb-2">
+        <label htmlFor="durationWeeks" className="block text-sm font-medium text-zinc-900 mb-2">
           期間（週） <span className="text-red-500">*</span>
         </label>
         <input
@@ -326,7 +326,7 @@ export function CaseForm({
       />
 
       <div>
-        <label htmlFor="result" className="block text-sm font-medium text-zinc-700 mb-2">
+        <label htmlFor="result" className="block text-sm font-medium text-zinc-900 mb-2">
           成果 <span className="text-red-500">*</span>
         </label>
         <textarea

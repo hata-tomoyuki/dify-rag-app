@@ -105,7 +105,7 @@ export default function CaseDetailPage() {
               </Link>
             </div>
             <div className="p-4 rounded-lg bg-red-50 text-red-800">
-              <p className="text-sm font-medium">{error}</p>
+              <p className="text-md font-medium">{error}</p>
             </div>
           </div>
         </main>
@@ -150,7 +150,7 @@ export default function CaseDetailPage() {
 
           {error && (
             <div className="mb-6 p-4 rounded-lg bg-red-50 text-red-800">
-              <p className="text-sm font-medium">{error}</p>
+              <p className="text-md font-medium">{error}</p>
             </div>
           )}
 
@@ -164,94 +164,94 @@ export default function CaseDetailPage() {
           ) : (
             <div className="space-y-6">
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">案件ID</p>
+                <p className="text-md font-semibold text-zinc-700 mb-1">案件ID</p>
                 <p className="text-xs text-zinc-500 break-all">{caseData.id}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">案件名</p>
-                <p className="text-sm text-zinc-900">{caseData.title}</p>
+                <p className="text-md font-semibold text-zinc-700 mb-1">案件名</p>
+                <p className="text-md text-zinc-900">{caseData.title}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">クライアント名</p>
-                <p className="text-sm text-zinc-900">{caseData.clientName}</p>
+                <p className="text-md font-semibold text-zinc-700 mb-1">クライアント名</p>
+                <p className="text-md text-zinc-900">{caseData.clientName}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">業種</p>
-                <p className="text-sm text-zinc-900">{caseData.industry}</p>
+                <p className="text-md font-semibold text-zinc-700 mb-1">業種</p>
+                <p className="text-md text-zinc-900">{caseData.industry}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">規模</p>
-                <p className="text-sm text-zinc-900">{caseData.companySize}</p>
+                <p className="text-md font-semibold text-zinc-700 mb-1">規模</p>
+                <p className="text-md text-zinc-900">{caseData.companySize}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">予算</p>
-                <p className="text-sm text-zinc-900">
+                <p className="text-md font-semibold text-zinc-700 mb-1">予算</p>
+                <p className="text-md text-zinc-900">
                   {caseData.budgetMin.toLocaleString()}円 〜 {caseData.budgetMax.toLocaleString()}円
                 </p>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">目的</p>
-                <ul className="list-disc list-inside text-sm text-zinc-900">
+                <p className="text-md font-semibold text-zinc-700 mb-1">目的</p>
+                <ul className="list-disc list-inside text-md text-zinc-900">
                   {caseData.goals.map((goal, index) => (
                     <li key={index}>{goal}</li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">課題</p>
-                <ul className="list-disc list-inside text-sm text-zinc-900">
+                <p className="text-md font-semibold text-zinc-700 mb-1">課題</p>
+                <ul className="list-disc list-inside text-md text-zinc-900">
                   {caseData.challenges.map((challenge, index) => (
                     <li key={index}>{challenge}</li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">提案要点</p>
-                <ul className="list-disc list-inside text-sm text-zinc-900">
+                <p className="text-md font-semibold text-zinc-700 mb-1">提案要点</p>
+                <ul className="list-disc list-inside text-md text-zinc-900">
                   {caseData.proposal.map((item, index) => (
                     <li key={index}>{item}</li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">技術スタック</p>
-                <ul className="list-disc list-inside text-sm text-zinc-900">
+                <p className="text-md font-semibold text-zinc-700 mb-1">技術スタック</p>
+                <ul className="list-disc list-inside text-md text-zinc-900">
                   {caseData.stack.map((tech, index) => (
                     <li key={index}>{tech}</li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">期間</p>
-                <p className="text-sm text-zinc-900">{caseData.durationWeeks}週</p>
+                <p className="text-md font-semibold text-zinc-700 mb-1">期間</p>
+                <p className="text-md text-zinc-900">{caseData.durationWeeks}週</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">成果物</p>
-                <ul className="list-disc list-inside text-sm text-zinc-900">
+                <p className="text-md font-semibold text-zinc-700 mb-1">成果物</p>
+                <ul className="list-disc list-inside text-md text-zinc-900">
                   {caseData.deliverables.map((deliverable, index) => (
                     <li key={index}>{deliverable}</li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">成果</p>
-                <p className="text-sm text-zinc-900 whitespace-pre-wrap">{caseData.result}</p>
+                <p className="text-md font-semibold text-zinc-700 mb-1">成果</p>
+                <p className="text-md text-zinc-900 whitespace-pre-wrap">{caseData.result}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">反省・注意点</p>
-                <ul className="list-disc list-inside text-sm text-zinc-900">
+                <p className="text-md font-semibold text-zinc-700 mb-1">反省・注意点</p>
+                <ul className="list-disc list-inside text-md text-zinc-900">
                   {caseData.lessonsLearned.map((lesson, index) => (
                     <li key={index}>{lesson}</li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">作成日時</p>
-                <p className="text-sm text-zinc-600">{formatDate(caseData.createdAt)}</p>
+                <p className="text-md font-semibold text-zinc-700 mb-1">作成日時</p>
+                <p className="text-md text-zinc-600">{formatDate(caseData.createdAt)}</p>
               </div>
               <div>
-                <p className="text-sm font-medium text-zinc-700 mb-1">更新日時</p>
-                <p className="text-sm text-zinc-600">{formatDate(caseData.updatedAt)}</p>
+                <p className="text-md font-semibold text-zinc-700 mb-1">更新日時</p>
+                <p className="text-md text-zinc-600">{formatDate(caseData.updatedAt)}</p>
               </div>
             </div>
           )}

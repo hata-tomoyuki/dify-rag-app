@@ -94,8 +94,19 @@ export class DifyRepository implements IDifyRepository {
     uploadFormData.append("data", JSON.stringify(dataConfig));
 
     // fileフィールド: ファイルを追加
-    const fileObj = file instanceof File ? file : new File([file], fileName, { type: "text/csv" });
-    uploadFormData.append("file", fileObj);
+    // サーバーサイドでは、BlobからFileオブジェクトを作成する必要がある
+    let fileObj: File | Blob;
+    if (file instanceof File) {
+      fileObj = file;
+    } else {
+      // BlobからFileオブジェクトを作成
+      // サーバーサイドでは、Fileコンストラクタが利用可能
+      fileObj = new File([file], fileName, {
+        type: "text/csv;charset=utf-8",
+        lastModified: Date.now(),
+      });
+    }
+    uploadFormData.append("file", fileObj, fileName);
 
     // APIリクエストを送信
     const response = await fetch(`${config.baseUrl}/datasets/${config.datasetId}/document/create-by-file`, {
@@ -107,10 +118,36 @@ export class DifyRepository implements IDifyRepository {
     });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(
-        errorData.message || `アップロードに失敗しました: ${response.status} ${response.statusText}`
-      );
+      let errorMessage = `アップロードに失敗しました: ${response.status} ${response.statusText}`;
+      try {
+        const errorData = await response.json();
+        // Dify APIのエラーレスポンス構造に応じてメッセージを取得
+        if (errorData.message) {
+          errorMessage = errorData.message;
+        } else if (errorData.error?.message) {
+          errorMessage = errorData.error.message;
+        } else if (typeof errorData === "string") {
+          errorMessage = errorData;
+        }
+        // エラーの詳細情報があれば追加
+        if (errorData.code) {
+          errorMessage += ` (コード: ${errorData.code})`;
+        }
+        if (errorData.details) {
+          errorMessage += `\n詳細: ${JSON.stringify(errorData.details)}`;
+        }
+      } catch {
+        // JSONパースに失敗した場合は、レスポンステキストを取得
+        try {
+          const text = await response.text();
+          if (text) {
+            errorMessage += `\nレスポンス: ${text}`;
+          }
+        } catch {
+          // テキスト取得にも失敗した場合はデフォルトメッセージを使用
+        }
+      }
+      throw new Error(errorMessage);
     }
 
     return await response.json();

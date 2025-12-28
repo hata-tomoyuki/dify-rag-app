@@ -3,13 +3,15 @@
 import { UploadCsvToDifyUseCase } from "@/lib/usecases/csv/UploadCsvToDifyUseCase";
 import { GetIndexingStatusUseCase } from "@/lib/usecases/csv/GetIndexingStatusUseCase";
 import type {
-  UploadResult,
-  IndexingStatus,
-  IndexingStatusResult,
+  UploadResult as UploadResultType,
+  IndexingStatus as IndexingStatusType,
+  IndexingStatusResult as IndexingStatusResultType,
 } from "@/lib/usecases/types";
 
 // 型定義をエクスポート（既存のコンポーネントとの互換性のため）
-export type { UploadResult, IndexingStatus, IndexingStatusResult };
+export type UploadResult = UploadResultType;
+export type IndexingStatus = IndexingStatusType;
+export type IndexingStatusResult = IndexingStatusResultType;
 
 /**
  * CSV BlobをDify APIにアップロードするServer Action

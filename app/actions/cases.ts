@@ -7,21 +7,19 @@ import { GetCasesUseCase } from "@/lib/usecases/cases/GetCasesUseCase";
 import { UpdateCaseUseCase } from "@/lib/usecases/cases/UpdateCaseUseCase";
 import { DeleteCaseUseCase } from "@/lib/usecases/cases/DeleteCaseUseCase";
 import type {
-  Case,
-  CreateCaseInput,
-  UpdateCaseInput,
-  CaseResult,
-  CasesResult,
+  Case as CaseType,
+  CreateCaseInput as CreateCaseInputType,
+  UpdateCaseInput as UpdateCaseInputType,
+  CaseResult as CaseResultType,
+  CasesResult as CasesResultType,
 } from "@/lib/usecases/types";
 
 // 型定義をエクスポート（既存のコンポーネントとの互換性のため）
-export type {
-  Case,
-  CreateCaseInput,
-  UpdateCaseInput,
-  CaseResult,
-  CasesResult,
-};
+export type Case = CaseType;
+export type CreateCaseInput = CreateCaseInputType;
+export type UpdateCaseInput = UpdateCaseInputType;
+export type CaseResult = CaseResultType;
+export type CasesResult = CasesResultType;
 
 /**
  * 案件を作成するServer Action

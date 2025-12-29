@@ -62,9 +62,36 @@ export interface CaseResult {
   error?: string;
 }
 
+/**
+ * 案件一覧表示用の型（必要なフィールドのみ）
+ */
+export interface CaseSummary {
+  id: string;
+  title: string;
+  clientName: string;
+  industry: string;
+  companySize: string;
+  budgetMin: number;
+  budgetMax: number;
+  goals: string[];
+  stack: string[];
+  durationWeeks: number;
+  deliverables: string[];
+  updatedAt: Date;
+}
+
 export interface CasesResult {
   success: boolean;
   data?: Case[];
+  error?: string;
+}
+
+/**
+ * 案件一覧取得結果（CaseSummaryを使用）
+ */
+export interface CaseSummariesResult {
+  success: boolean;
+  data?: CaseSummary[];
   error?: string;
 }
 

@@ -4,9 +4,9 @@ import { useState } from "react";
 import { CasesSection } from "./cases/CasesSection";
 import { SimilarCasesForm } from "./similar/SimilarCasesForm";
 import { Tabs } from "./Tabs";
-import { Case } from "@prisma/client";
+import type { CaseSummary } from "@/app/actions/cases";
 
-export function MainContents({cases}: {cases: Case[]}) {
+export function MainContents({cases}: {cases: CaseSummary[]}) {
     const [activeTab, setActiveTab] = useState("similar");
 
     const tabs = [

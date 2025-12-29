@@ -6,14 +6,14 @@ import { useSession } from "next-auth/react";
 import { generateChunksForAllCases } from "@/app/actions/chunks";
 import { ConfirmModal } from "@/app/components/ConfirmModal";
 import { CaseList } from "./CaseList";
-import type { Case } from "@/app/actions/cases";
+import type { CaseSummary } from "@/app/actions/cases";
 
 /**
  * 案件一覧セクションコンポーネント
  *
  * @returns 案件一覧を表示するコンポーネント
  */
-export function CasesSection({cases}: {cases: Case[]}) {
+export function CasesSection({cases}: {cases: CaseSummary[]}) {
   const { data: session } = useSession();
   // サーバーコンポーネントからデータを受け取っているため、読み込み完了とする
   const [isGeneratingChunks, setIsGeneratingChunks] = useState(false);

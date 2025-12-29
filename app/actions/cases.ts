@@ -10,18 +10,22 @@ import { GenerateCaseChunksUseCase } from "@/lib/usecases/chunks/GenerateCaseChu
 import { CaseChunkRepository } from "@/lib/repositories/CaseChunkRepository";
 import type {
   Case as CaseType,
+  CaseSummary as CaseSummaryType,
   CreateCaseInput as CreateCaseInputType,
   UpdateCaseInput as UpdateCaseInputType,
   CaseResult as CaseResultType,
   CasesResult as CasesResultType,
+  CaseSummariesResult as CaseSummariesResultType,
 } from "@/lib/usecases/types";
 
 // 型定義をエクスポート（既存のコンポーネントとの互換性のため）
 export type Case = CaseType;
+export type CaseSummary = CaseSummaryType;
 export type CreateCaseInput = CreateCaseInputType;
 export type UpdateCaseInput = UpdateCaseInputType;
 export type CaseResult = CaseResultType;
 export type CasesResult = CasesResultType;
+export type CaseSummariesResult = CaseSummariesResultType;
 
 /**
  * 案件を作成するServer Action
@@ -51,11 +55,11 @@ export async function createCase(input: CreateCaseInput): Promise<CaseResult> {
 }
 
 /**
- * すべての案件を取得するServer Action
+ * すべての案件を取得するServer Action（一覧表示用）
  *
  * @returns 案件一覧の取得結果（成功/失敗、データ、エラーメッセージ）
  */
-export async function getCases(): Promise<CasesResult> {
+export async function getCases(): Promise<CaseSummariesResult> {
   const useCase = new GetCasesUseCase();
   return await useCase.execute();
 }

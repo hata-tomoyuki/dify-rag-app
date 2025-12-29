@@ -40,9 +40,9 @@ export async function generateChunksForCase(caseId: string): Promise<GenerateChu
 export async function generateChunksForAllCases(): Promise<GenerateChunksResult & { processedCases?: number }> {
   try {
     const caseRepository = new CaseRepository();
-    const cases = await caseRepository.findMany();
+    const caseSummaries = await caseRepository.findMany();
 
-    if (cases.length === 0) {
+    if (caseSummaries.length === 0) {
       return {
         success: false,
         error: "案件が登録されていません",
@@ -54,13 +54,20 @@ export async function generateChunksForAllCases(): Promise<GenerateChunksResult 
     let processedCases = 0;
     const errors: string[] = [];
 
-    for (const caseData of cases) {
+    // 各案件の完全なデータを取得してチャンク生成
+    for (const caseSummary of caseSummaries) {
+      const caseData = await caseRepository.findById(caseSummary.id);
+      if (!caseData) {
+        errors.push(`${caseSummary.title}: 案件が見つかりませんでした`);
+        continue;
+      }
+
       const result = await useCase.execute(caseData);
       if (result.success) {
         totalChunksCreated += result.chunksCreated || 0;
         processedCases++;
       } else {
-        errors.push(`${caseData.title}: ${result.error || "チャンク生成に失敗しました"}`);
+        errors.push(`${caseSummary.title}: ${result.error || "チャンク生成に失敗しました"}`);
       }
     }
 

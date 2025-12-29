@@ -1,9 +1,9 @@
 import { CaseRepository } from "@/lib/repositories/CaseRepository";
-import type { CasesResult } from "@/lib/usecases/types";
+import type { CaseSummariesResult } from "@/lib/usecases/types";
 
 /**
  * GetCasesUseCase
- * 案件一覧取得のユースケース
+ * 案件一覧取得のユースケース（一覧表示用のサマリー情報のみ）
  */
 export class GetCasesUseCase {
   private caseRepository: CaseRepository;
@@ -12,7 +12,7 @@ export class GetCasesUseCase {
     this.caseRepository = new CaseRepository();
   }
 
-  async execute(): Promise<CasesResult> {
+  async execute(): Promise<CaseSummariesResult> {
     try {
       const cases = await this.caseRepository.findMany();
 

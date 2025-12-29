@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import type { Case, CreateCaseInput, UpdateCaseInput } from "@/lib/usecases/types";
+import type { Case, CaseSummary, CreateCaseInput, UpdateCaseInput } from "@/lib/usecases/types";
 
 /**
  * CaseRepositoryインターフェース
@@ -7,7 +7,7 @@ import type { Case, CreateCaseInput, UpdateCaseInput } from "@/lib/usecases/type
  */
 export interface ICaseRepository {
   create(input: CreateCaseInput): Promise<Case>;
-  findMany(): Promise<Case[]>;
+  findMany(): Promise<CaseSummary[]>;
   findById(id: string): Promise<Case | null>;
   update(id: string, input: UpdateCaseInput): Promise<Case>;
   delete(id: string): Promise<void>;
@@ -45,10 +45,24 @@ export class CaseRepository implements ICaseRepository {
   /**
    * すべての案件を取得する（更新日時の降順）
    */
-  async findMany(): Promise<Case[]> {
+  async findMany(): Promise<CaseSummary[]> {
     return await prisma.case.findMany({
       orderBy: {
         updatedAt: "desc",
+      },
+      select: {
+        id: true,
+        title: true,
+        clientName: true,
+        industry: true,
+        companySize: true,
+        budgetMin: true,
+        budgetMax: true,
+        goals: true,
+        stack: true,
+        durationWeeks: true,
+        deliverables: true,
+        updatedAt: true,
       },
     });
   }

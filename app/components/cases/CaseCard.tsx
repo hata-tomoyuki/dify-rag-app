@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import type { Case } from "@/app/actions/cases";
+import type { CaseSummary } from "@/app/actions/cases";
 
 interface CaseCardProps {
-  caseData: Case;
+  caseData: CaseSummary;
 }
 
 /**

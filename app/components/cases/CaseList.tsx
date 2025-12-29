@@ -1,10 +1,10 @@
 "use client";
 
 import { CaseCard } from "./CaseCard";
-import type { Case } from "@/app/actions/cases";
+import type { CaseSummary } from "@/app/actions/cases";
 
 interface CaseListProps {
-  cases: Case[];
+  cases: CaseSummary[];
 }
 
 /**

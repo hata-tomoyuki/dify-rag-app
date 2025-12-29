@@ -2,7 +2,7 @@ import { AuthStatus } from "./auth/AuthStatus"
 
 export function Header() {
     return (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between flex-col sm:flex-row">
             <div className="text-center flex-1">
                 <h1 className="text-3xl font-semibold leading-10 tracking-tight text-black mb-4">
                     類似案件提案アシスタント

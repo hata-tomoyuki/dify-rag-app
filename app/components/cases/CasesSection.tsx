@@ -92,7 +92,7 @@ export function CasesSection() {
         onCancel={() => setShowConfirmModal(false)}
       />
 
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-col sm:flex-row gap-4">
         <h2 className="text-2xl font-semibold text-black">過去の案件一覧</h2>
         <div className="flex gap-2">
           {session?.user ? (

@@ -3,6 +3,7 @@
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { getCaseById, updateCase, deleteCase } from "@/app/actions/cases";
 import { CaseForm } from "@/app/components/cases/CaseForm";
 import type { Case, CreateCaseInput, UpdateCaseInput } from "@/app/actions/cases";
@@ -16,6 +17,7 @@ export default function CaseDetailPage() {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
+  const { data: session } = useSession();
 
   const [caseData, setCaseData] = useState<Case | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -129,7 +131,7 @@ export default function CaseDetailPage() {
         <div className="bg-white p-8 rounded-lg shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl font-semibold text-black">案件詳細</h1>
-            {!isEditing && (
+            {!isEditing && session?.user && (
               <div className="flex gap-2">
                 <button
                   onClick={() => setIsEditing(true)}

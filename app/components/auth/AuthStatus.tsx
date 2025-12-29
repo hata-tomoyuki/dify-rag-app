@@ -6,7 +6,7 @@ export async function AuthStatus() {
     const session = await auth();
 
     return (
-        <div className="mt-4 sm:mt-0">
+        <div className="mt-4 sm:mt-0 relative sm:absolute sm:top-8 sm:right-8">
             {session?.user ? (
                 <div className="flex items-center gap-4">
                     <span className="text-sm text-zinc-600">

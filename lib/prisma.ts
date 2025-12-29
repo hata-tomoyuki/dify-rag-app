@@ -7,9 +7,10 @@ const globalForPrisma = globalThis as unknown as {
   pool: Pool | undefined;
 };
 
-const databaseUrl = process.env.DATABASE_URL;
+// Vercel Postgres使用時はPOSTGRES_PRISMA_URLを優先、なければDATABASE_URLを使用
+const databaseUrl = process.env.POSTGRES_PRISMA_URL || process.env.DATABASE_URL;
 if (!databaseUrl) {
-  throw new Error("DATABASE_URL が設定されていません（.env または .env.local を確認してください）");
+  throw new Error("DATABASE_URL または POSTGRES_PRISMA_URL が設定されていません（.env または .env.local を確認してください）");
 }
 
 const pool =

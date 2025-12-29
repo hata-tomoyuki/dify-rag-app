@@ -6,16 +6,14 @@ import { useSession } from "next-auth/react";
 import { generateChunksForAllCases } from "@/app/actions/chunks";
 import { ConfirmModal } from "@/app/components/ConfirmModal";
 import { CaseList } from "./CaseList";
-import type { CaseSummary } from "@/app/actions/cases";
 
 /**
  * 案件一覧セクションコンポーネント
  *
  * @returns 案件一覧を表示するコンポーネント
  */
-export function CasesSection({cases}: {cases: CaseSummary[]}) {
+export function CasesSection() {
   const { data: session } = useSession();
-  // サーバーコンポーネントからデータを受け取っているため、読み込み完了とする
   const [isGeneratingChunks, setIsGeneratingChunks] = useState(false);
   const [chunkMessage, setChunkMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +21,7 @@ export function CasesSection({cases}: {cases: CaseSummary[]}) {
 
   const handleGenerateChunksForAll = async () => {
     setIsGeneratingChunks(true);
-    setError(null);
+      setError(null);
     setChunkMessage(null);
     // モーダルは開いたままにする
 
@@ -35,14 +33,14 @@ export function CasesSection({cases}: {cases: CaseSummary[]}) {
         : "";
       const chunksInfo = result.chunksCreated ? `${result.chunksCreated}個のチャンク` : "チャンク";
       setChunkMessage(`${processedInfo}${chunksInfo}が作成されました。${result.error || ""}`);
-    } else {
+      } else {
       setError(result.error || "チャンク生成に失敗しました");
-    }
+      }
 
     setIsGeneratingChunks(false);
     // 処理完了後にモーダルを閉じる
     setShowConfirmModal(false);
-  };
+    };
 
   if (error) {
     return (
@@ -73,15 +71,15 @@ export function CasesSection({cases}: {cases: CaseSummary[]}) {
             <>
               <button
                 onClick={() => setShowConfirmModal(true)}
-                disabled={isGeneratingChunks || cases.length === 0}
+                disabled={isGeneratingChunks}
                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isGeneratingChunks ? "一括更新中..." : "案件ナレッジを一括更新"}
               </button>
-              <Link
-                href="/cases/new"
-                className="px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800"
-              >
+        <Link
+          href="/cases/new"
+          className="px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800"
+        >
                 案件を登録
               </Link>
             </>
@@ -91,7 +89,7 @@ export function CasesSection({cases}: {cases: CaseSummary[]}) {
               className="px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800"
             >
               ログインして案件を管理
-            </Link>
+        </Link>
           )}
         </div>
       </div>
@@ -108,7 +106,7 @@ export function CasesSection({cases}: {cases: CaseSummary[]}) {
         </div>
       )}
 
-      <CaseList cases={cases} />
+      <CaseList />
     </div>
   );
 }

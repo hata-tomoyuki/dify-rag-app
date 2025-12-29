@@ -16,6 +16,7 @@ import type {
   CaseResult as CaseResultType,
   CasesResult as CasesResultType,
   CaseSummariesResult as CaseSummariesResultType,
+  PaginatedCaseSummariesResult as PaginatedCaseSummariesResultType,
 } from "@/lib/usecases/types";
 
 // 型定義をエクスポート（既存のコンポーネントとの互換性のため）
@@ -26,6 +27,7 @@ export type UpdateCaseInput = UpdateCaseInputType;
 export type CaseResult = CaseResultType;
 export type CasesResult = CasesResultType;
 export type CaseSummariesResult = CaseSummariesResultType;
+export type PaginatedCaseSummariesResult = PaginatedCaseSummariesResultType;
 
 /**
  * 案件を作成するServer Action
@@ -62,6 +64,21 @@ export async function createCase(input: CreateCaseInput): Promise<CaseResult> {
 export async function getCases(): Promise<CaseSummariesResult> {
   const useCase = new GetCasesUseCase();
   return await useCase.execute();
+}
+
+/**
+ * ページネーション付きで案件を取得するServer Action
+ *
+ * @param page - ページ番号（1から始まる）
+ * @param pageSize - 1ページあたりの件数
+ * @returns ページネーション付き案件一覧の取得結果
+ */
+export async function getCasesPaginated(
+  page: number = 1,
+  pageSize: number = 10
+): Promise<PaginatedCaseSummariesResult> {
+  const useCase = new GetCasesUseCase();
+  return await useCase.executePaginated(page, pageSize);
 }
 
 /**

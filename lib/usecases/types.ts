@@ -95,3 +95,16 @@ export interface CaseSummariesResult {
   error?: string;
 }
 
+/**
+ * ページネーション付き案件一覧取得結果
+ */
+export interface PaginatedCaseSummariesResult {
+  success: boolean;
+  data?: CaseSummary[];
+  total?: number;
+  page?: number;
+  pageSize?: number;
+  totalPages?: number;
+  error?: string;
+}
+

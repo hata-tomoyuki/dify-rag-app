@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { getCases } from "@/app/actions/cases";
 import { generateChunksForAllCases } from "@/app/actions/chunks";
 import { ConfirmModal } from "@/app/components/ConfirmModal";
 import { CaseList } from "./CaseList";
@@ -14,30 +13,13 @@ import type { Case } from "@/app/actions/cases";
  *
  * @returns 案件一覧を表示するコンポーネント
  */
-export function CasesSection() {
+export function CasesSection({cases}: {cases: Case[]}) {
   const { data: session } = useSession();
-  const [cases, setCases] = useState<Case[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // サーバーコンポーネントからデータを受け取っているため、読み込み完了とする
   const [isGeneratingChunks, setIsGeneratingChunks] = useState(false);
   const [chunkMessage, setChunkMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
-  useEffect(() => {
-    const loadCases = async () => {
-      setIsLoading(true);
-      setError(null);
-      const result = await getCases();
-      if (result.success && result.data) {
-        setCases(result.data);
-      } else {
-        setError(result.error || "案件一覧の取得に失敗しました");
-      }
-      setIsLoading(false);
-    };
-
-    loadCases();
-  }, []);
 
   const handleGenerateChunksForAll = async () => {
     setIsGeneratingChunks(true);
@@ -61,14 +43,6 @@ export function CasesSection() {
     // 処理完了後にモーダルを閉じる
     setShowConfirmModal(false);
   };
-
-  if (isLoading) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-zinc-600">読み込み中...</p>
-      </div>
-    );
-  }
 
   if (error) {
     return (

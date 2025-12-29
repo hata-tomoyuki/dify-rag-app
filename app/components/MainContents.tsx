@@ -4,8 +4,9 @@ import { useState } from "react";
 import { CasesSection } from "./cases/CasesSection";
 import { SimilarCasesForm } from "./similar/SimilarCasesForm";
 import { Tabs } from "./Tabs";
+import { Case } from "@prisma/client";
 
-export function MainContents() {
+export function MainContents({cases}: {cases: Case[]}) {
     const [activeTab, setActiveTab] = useState("similar");
 
     const tabs = [
@@ -19,7 +20,7 @@ export function MainContents() {
 
             <div className="mt-8">
                 {activeTab === "similar" && <SimilarCasesForm />}
-                {activeTab === "cases" && <CasesSection />}
+                {activeTab === "cases" && <CasesSection cases={cases} />}
             </div>
         </>
     );
